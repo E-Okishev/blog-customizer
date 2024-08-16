@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { StrictMode, CSSProperties } from 'react';
+import { StrictMode, CSSProperties, useState } from 'react';
 import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
@@ -13,21 +13,21 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
+	const [appStyles, setAppStyles] = useState(defaultArticleState);
+
+	const appStyle = {
+		'--font-family': appStyles.fontFamilyOption.value,
+		'--font-size': appStyles.fontSizeOption.value,
+		'--font-color': appStyles.fontColor.value,
+		'--container-width': appStyles.contentWidth.value,
+		'--bg-color': appStyles.backgroundColor.value,
+	} as CSSProperties;
+
 	return (
-		<div
-			className={clsx(styles.main)}
-			style={
-				{
-					'--font-family': defaultArticleState.fontFamilyOption.value,
-					'--font-size': defaultArticleState.fontSizeOption.value,
-					'--font-color': defaultArticleState.fontColor.value,
-					'--container-width': defaultArticleState.contentWidth.value,
-					'--bg-color': defaultArticleState.backgroundColor.value,
-				} as CSSProperties
-			}>
-			<ArticleParamsForm />
+		<main className={styles.main} style={appStyle}>
+			<ArticleParamsForm appState={setAppStyles} />
 			<Article />
-		</div>
+		</main>
 	);
 };
 
